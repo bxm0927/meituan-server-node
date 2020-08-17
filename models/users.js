@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 /**
  * 定义一个 Schema
@@ -17,10 +17,10 @@ const UserSchema = new mongoose.Schema({
       default: Date.now(),
     },
   },
-})
+});
 
 // 将 Schema 发布为 Model
 // 这将在数据库中新建一个名为 users 的 collection
-const UserModel = mongoose.model('users', UserSchema)
+const UserModel = mongoose.model('users', UserSchema);
 
-module.exports = UserModel
+module.exports = UserModel;

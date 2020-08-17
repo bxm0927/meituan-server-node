@@ -1,4 +1,4 @@
-const path = require('path')
+const path = require('path');
 
 module.exports = {
   // 服务器监听地址
@@ -9,4 +9,7 @@ module.exports = {
 
   // 静态文件托管地址
   staticPath: path.join(__dirname, '../public'),
-}
+
+  // 模版引擎路径
+  templatePath: path.join(__dirname, '../views'),
+};
