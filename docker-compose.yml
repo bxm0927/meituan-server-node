@@ -1,6 +1,6 @@
 # 指定此文件符合的 Compose schema 的版本，一般使用最新版本
 # https://docs.docker.com/compose/compose-file/
-version: "3.8"
+version: "3.3"
 
 # 定义容器服务列表
 # 我们可以为服务选择任何名称，该名称将自动成为网络别名 (network alias)
