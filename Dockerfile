@@ -4,7 +4,7 @@ LABEL maintainer="xiaoming.bai" email=80583600@qq.com
 
 ENV NODE_ENV production
 
-WORKDIR /app/meituan-server-node
+WORKDIR /app
 
 # 先安装依赖，可以利用镜像层缓存机制 (Layer Caching)，获得更快的构建速度
 COPY package*.json ./

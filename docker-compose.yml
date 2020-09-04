@@ -10,7 +10,7 @@ services:
     image: mongo
     # restart: always
     volumes:
-      - mongo-data:/var/lib/mondo/db # 命名卷（Named Volumes）
+      - mongo-data:/mongo/data # 命名卷（Named Volumes）
       # - ~/data/db:/data/db # 绑定挂载（Bind Mounts）
     networks:
       - webapp-network
@@ -19,10 +19,10 @@ services:
   redis:
     image: redis
     volumes:
-      - redis-data:/var/lib/redis
+      - redis-data:/redis
 
   # Defining the Node.js Service
-  meituan-server-node:
+  node:
     # scale: 4 # 启四个实例，实现负载均衡
     build: .
     # restart: always
