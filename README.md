@@ -3,19 +3,14 @@
 ## 快速开始
 
 ```bash
-npm install
+# Install dependencies:
+$ npm install
 
-# dev
-npm run dev
+# Rock and Roll
+$ npm run dev
 
-# deploy
-npm run pro
+# Deploy
+docker-compose -d --build
 ```
 
 https://github.com/i5ting/koa-generator
-
-## TODO
-
-静态校验：ESLint + lint-staged + pretter + airbnb
-
-单元测试

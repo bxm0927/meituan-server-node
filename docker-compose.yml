@@ -1,0 +1,49 @@
+# 指定此文件符合的 Compose schema 的版本，一般使用最新版本
+# https://docs.docker.com/compose/compose-file/
+version: "3.8"
+
+# 定义容器服务列表
+# 我们可以为服务选择任何名称，该名称将自动成为网络别名 (network alias)
+services:
+  # Defining the MongoDB Service
+  mongo:
+    image: mongo
+    # restart: always
+    volumes:
+      - mongo-data:/var/lib/mondo/db # 命名卷（Named Volumes）
+      # - ~/data/db:/data/db # 绑定挂载（Bind Mounts）
+    networks:
+      - webapp-network
+
+  # Defining the Redis Service
+  redis:
+    image: redis
+    volumes:
+      - redis-data:/var/lib/redis
+
+  # Defining the Node.js Service
+  meituan-server-node:
+    # scale: 4 # 启四个实例，实现负载均衡
+    build: .
+    # restart: always
+    ports:
+      - 4000:4000
+    depends_on:
+      - mongo
+      - redis
+    networks:
+      - webapp-network
+    environment:
+      NODE_ENV: production
+      MONGO_HOST: mongo # use network alias
+      MONGO_PORT: 27017
+      # REDIS_HOST: redis://redis:6379/0
+
+# 你需要手动指定命名卷
+volumes:
+  mongo-data:
+  redis-data:
+
+# 你需要手动指定网络
+networks:
+  webapp-network:
