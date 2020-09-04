@@ -13,7 +13,7 @@ services:
       - mongo-data:/mongo/data # 命名卷（Named Volumes）
       # - ~/data/db:/data/db # 绑定挂载（Bind Mounts）
     networks:
-      - webapp-network
+      - node-network
 
   # Defining the Redis Service
   redis:
@@ -22,7 +22,7 @@ services:
       - redis-data:/redis
 
   # Defining the Node.js Service
-  node:
+  app:
     # scale: 4 # 启四个实例，实现负载均衡
     build: .
     # restart: always
@@ -32,7 +32,7 @@ services:
       - mongo
       - redis
     networks:
-      - webapp-network
+      - node-network
     environment:
       NODE_ENV: production
       MONGO_HOST: mongo # use network alias
@@ -46,4 +46,4 @@ volumes:
 
 # 你需要手动指定网络
 networks:
-  webapp-network:
+  node-network:
