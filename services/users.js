@@ -3,14 +3,16 @@
  * @Author: xiaoming.bai
  * @Date: 2020-09-13 16:57:34
  * @Last Modified by: xiaoming.bai
- * @Last Modified time: 2020-09-15 11:01:40
+ * @Last Modified time: 2020-09-15 15:09:24
  */
 
-const redisClient = require('koa-redis').client
+const Redis = require('koa-redis')
 const nodemailer = require('nodemailer')
 const UserModel = require('../models/users')
 const passport = require('../utils/passport')
 const { smtp } = require('../config')
+
+const redisClient = new Redis().client
 
 /**
  * 用户登录

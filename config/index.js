@@ -3,15 +3,17 @@
  * @Author: xiaoming.bai
  * @Date: 2020-09-04 17:21:47
  * @Last Modified by: xiaoming.bai
- * @Last Modified time: 2020-09-14 00:45:21
+ * @Last Modified time: 2020-09-15 15:06:15
  */
 
+const fs = require('fs')
 const path = require('path')
 
 const isProd = process.env.NODE_ENV === 'production'
 const MONGO_HOST = isProd ? process.env.MONGO_HOST : 'localhost'
 const MONGO_PORT = isProd ? process.env.MONGO_PORT : '27017'
 const MONGO_DATABASE = 'meituan'
+const SMTP_PASS = fs.readFileSync(path.resolve(__dirname, 'smtp_pass'), 'utf-8')
 
 module.exports = {
   // Node.js 服务器监听地址
@@ -37,7 +39,7 @@ module.exports = {
     host: 'smtp.qq.com',
     port: '465',
     user: '80583600@qq.com',
-    pass: 'xqudglxcstlxcahe', // QQ邮箱需要使用授权码
+    pass: SMTP_PASS.trim(), // QQ邮箱需要使用授权码
     /**
      * 随机生成一个 4 位数的验证码，用于邮箱注册
      * 生成过程: 0.11752399794044766 -> "0.1e160d7fa63eb" -> "1e16" -> "1E16"

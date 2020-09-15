@@ -131,3 +131,6 @@ sw.*
 
 # Vim swap files
 *.swp
+
+
+config/smtp_pass
