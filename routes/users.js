@@ -1,41 +1,31 @@
-const router = require('koa-router')();
-const UserModel = require('../models/users');
+/*
+ * 用户相关接口
+ * @Author: xiaoming.bai
+ * @Date: 2020-09-13 16:57:34
+ * @Last Modified by: xiaoming.bai
+ * @Last Modified time: 2020-09-15 10:10:47
+ */
 
-router.prefix('/users');
+const Router = require('koa-router')
+const userService = require('../services/users')
 
-// 新增一个用户
-router.post('/add', async (ctx) => {
-  const { name, age } = ctx.request.body;
-  const user = new UserModel({ name, age });
-  const result = await user.save();
-  ctx.body = { code: 0, data: result, msg: '' };
-});
+const router = new Router({
+  prefix: '/users',
+})
 
-// 删除一个用户
-router.delete('/remove', async (ctx) => {
-  const { name } = ctx.request.body;
-  const result = await UserModel.where({ name }).deleteOne();
-  ctx.body = { code: 0, data: result, msg: '' };
-});
+// 用户登录
+router.get('/login', userService.login)
 
-// 修改用户信息
-router.post('/update', async (ctx) => {
-  const { name, age } = ctx.request.body;
-  const result = await UserModel.where({ name }).updateOne({ age });
-  ctx.body = { code: 0, data: result, msg: '' };
-});
+// 用户注册
+router.post('/register', userService.register)
 
-// 查询单个用户详情
-router.get('/detail', async (ctx) => {
-  const { name } = ctx.request.query;
-  const result = await UserModel.findOne({ name });
-  ctx.body = { code: 0, data: result, msg: '' };
-});
+// 获取邮箱验证码
+router.post('/verify', userService.verify)
 
-// 获取用户列表
-router.get('/list', async (ctx) => {
-  const result = await UserModel.find();
-  ctx.body = { code: 0, data: result, msg: '' };
-});
+// 退出登录
+router.get('/logout', userService.logout)
 
-module.exports = router;
+// 用户详细信息
+router.get('/info', userService.info)
+
+module.exports = router

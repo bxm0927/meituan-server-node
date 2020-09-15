@@ -1,52 +1,52 @@
-const Koa = require('koa');
-const json = require('koa-json');
-const views = require('koa-views');
-const consola = require('consola');
-const onerror = require('koa-onerror');
-const KoaStatic = require('koa-static');
-const KoaLogger = require('koa-logger');
-const bodyParser = require('koa-bodyparser');
-const mongoose = require('mongoose');
-const redisStore = require('koa-redis');
-const KoaSession = require('koa-generic-session');
-const MyLogger = require('./middlewares/MyLogger');
-const { dbs, staticPath, templatePath } = require('./config');
-
-const app = new Koa();
-
-// Error Handler
-onerror(app);
-
-// Middlewares
-app.use(bodyParser({ enableTypes: ['json', 'form', 'text'] }));
-app.use(json());
-app.use(KoaStatic(staticPath));
-app.use(KoaLogger());
-app.use(MyLogger);
-
-// Template Engines
-app.use(views(templatePath, { extension: 'pug' }));
-
-// routes
-const index = require('./routes');
-const users = require('./routes/users');
-
-app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
+const Koa = require('koa')
+const json = require('koa-json')
+const views = require('koa-views')
+const serve = require('koa-static')
+const onerror = require('koa-onerror')
+const passport = require('koa-passport')
+const bodyParser = require('koa-bodyparser')
+const session = require('koa-generic-session')
+const redisStore = require('koa-redis')
+const mongoose = require('mongoose')
+const consola = require('consola')
+const logger = require('./middlewares/logger')
+const config = require('./config')
 
 // Connecting to MongoDB 🔗
-mongoose.connect(dbs, {
+mongoose.connect(config.dbs, {
+  useCreateIndex: true,
   useNewUrlParser: true,
   useUnifiedTopology: true,
-});
+})
 
-// Connecting to Redis 🔗
-app.keys = ['keys', 'keykeys'];
-app.use(KoaSession({ store: redisStore() }));
+const app = new Koa()
+
+// Error Handler
+onerror(app)
+
+// Middlewares
+app.use(logger())
+app.use(json())
+app.use(serve(config.staticPath))
+app.use(bodyParser({ enableTypes: ['json', 'form', 'text'] }))
+
+// Template Engines
+app.use(views(config.templatePath, { extension: 'pug' }))
+
+// Write Sessions to Redis
+app.keys = ['meituan', 'keykeys']
+app.use(session({ key: 'meituan', prefix: 'meituan:uid', store: redisStore() }))
+
+// Passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+// Routes
+require('./routes')(app)
 
 // error-handling
 app.on('error', (err, ctx) => {
-  consola.error('server error', err, ctx);
-});
+  consola.error('server error', err, ctx)
+})
 
-module.exports = app;
+module.exports = app

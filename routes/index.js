@@ -1,19 +1,15 @@
-const router = require('koa-router')();
+/*
+ * 路由注册
+ * 后面路由复杂了，可以考虑对路由进行自动注册
+ *
+ * @Author: xiaoming.bai
+ * @Date: 2020-09-15 11:02:31
+ * @Last Modified by: xiaoming.bai
+ * @Last Modified time: 2020-09-15 13:24:11
+ */
 
-router.get('/', async (ctx) => {
-  await ctx.render('index', {
-    title: 'Hello Koa 2!',
-  });
-});
+const users = require('./users')
 
-router.get('/string', async (ctx) => {
-  ctx.body = 'koa2 string';
-});
-
-router.get('/json', async (ctx) => {
-  ctx.body = {
-    title: 'koa2 json',
-  };
-});
-
-module.exports = router;
+module.exports = (app) => {
+  app.use(users.routes(), users.allowedMethods())
+}
