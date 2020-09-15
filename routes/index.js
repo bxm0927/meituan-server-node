@@ -5,11 +5,15 @@
  * @Author: xiaoming.bai
  * @Date: 2020-09-15 11:02:31
  * @Last Modified by: xiaoming.bai
- * @Last Modified time: 2020-09-15 13:24:11
+ * @Last Modified time: 2020-09-15 23:16:31
  */
 
 const users = require('./users')
+const geo = require('./geo')
+const search = require('./search')
 
 module.exports = (app) => {
   app.use(users.routes(), users.allowedMethods())
+  app.use(geo.routes(), geo.allowedMethods())
+  app.use(search.routes(), search.allowedMethods())
 }

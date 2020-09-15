@@ -7,5 +7,6 @@ module.exports = () => async (ctx, next) => {
   const end = new Date()
   const duration = end - start
   const time = moment(start).format('YYYY-MM-DD HH:mm:ss')
-  consola.info(`${time} [${duration}ms] ${ctx.method} ${ctx.href}`)
+
+  consola.info(`${time} [${duration}ms] ${ctx.res.statusCode} ${ctx.method} ${ctx.href}`)
 }
