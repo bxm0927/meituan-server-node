@@ -3,7 +3,7 @@
  * @Author: xiaoming.bai
  * @Date: 2020-09-15 21:31:58
  * @Last Modified by: xiaoming.bai
- * @Last Modified time: 2020-09-16 00:34:28
+ * @Last Modified time: 2020-09-17 00:29:17
  */
 
 const Router = require('koa-router')
@@ -16,9 +16,11 @@ const router = new Router({
 // 首页分类菜单
 router.get('/menu', searchService.menu)
 
-// router.get('/top', (ctx) => {})
+// 搜索词最佳推荐
+router.get('/top', searchService.top)
 
-// router.get('/hot', (ctx) => {})
+// 热门搜索
+router.get('/topsearches', searchService.topsearches)
 
 // router.get('/products', (ctx) => {})
 
